@@ -2,13 +2,13 @@
 % This function is to dectect moving object
 % Inputs:
 %           frame:  
-%           obj
 % Outputs:
 %           centroids, 
 %           bboxes
 %           mask
-function [centroids, bboxes, mask] = detectObjects(obj,frame)
-
+function [centroids, bboxes, mask] = detectObjects(frame)
+    global obj;
+    global tracks;
         % Detect foreground.
         mask = obj.detector.step(frame);
 

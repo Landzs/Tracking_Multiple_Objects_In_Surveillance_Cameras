@@ -6,7 +6,8 @@
 % Outputs:
 %           obj                sturct
 function obj = setupSystemObjects(file_name)
-
+    global obj;
+    global tracks;
         
         % Create a video file reader.
         obj.reader = vision.VideoFileReader(file_name);
