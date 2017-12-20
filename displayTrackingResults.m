@@ -1,4 +1,4 @@
-function displayTrackingResults( frame,mask)
+function showId = displayTrackingResults( frame,mask,showId)
     global obj;
     global tracks;
         % Convert the frame and the mask to uint8 RGB.
@@ -14,7 +14,14 @@ function displayTrackingResults( frame,mask)
             reliableTrackInds = ...
                 [tracks(:).totalVisibleCount] > minVisibleCount;
             reliableTracks = tracks(reliableTrackInds);
-
+            
+            for i=1:length(tracks)
+                if reliableTrackInds(i) == 1 && tracks(i).showId == 0
+                    tracks(i).showId = showId;
+                    showId = showId + 1;
+                end
+            end
+                    
             % Display the objects. If an object has not been detected
             % in this frame, display its predicted bounding box.
             if ~isempty(reliableTracks)
@@ -22,7 +29,7 @@ function displayTrackingResults( frame,mask)
                 bboxes = cat(1, reliableTracks.bbox);
 
                 % Get ids.
-                ids = int32([reliableTracks(:).id]);
+                ids = int32([reliableTracks(:).showId]);
 
                 % Create labels for objects indicating the ones for
                 % which we display the predicted rather than the actual
@@ -35,8 +42,10 @@ function displayTrackingResults( frame,mask)
                 labels = strcat(labels, isPredicted);
 
                 % Draw the objects on the frame.
-                frame = insertObjectAnnotation(frame, 'circle', ...
-                    [tracks(1).particleFilter.Particles(:,1),tracks(1).particleFilter.Particles(:,2) ones(1000,1)*1], labels);
+%                 for i=1:length(labels)
+                    frame = insertObjectAnnotation(frame, 'circle', ...
+                        [tracks(1).particleFilter.Particles(:,1),tracks(1).particleFilter.Particles(:,2) ones(1000,1)*1],0);
+%                 end
                 frame = insertObjectAnnotation(frame, 'rectangle', ...
                     bboxes, labels);
 %                 plot(tracks(1).particleFilter.Particles(1),tracks(1).particleFilter.Particles(2),'ro');hold on;

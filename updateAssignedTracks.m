@@ -1,4 +1,4 @@
-function tracks= updateAssignedTracks(assignments,centroids, bboxes)
+function updateAssignedTracks(assignments,centroids, bboxes)
     global obj;
     global tracks;
         numAssignedTracks = size(assignments, 1);

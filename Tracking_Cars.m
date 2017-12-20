@@ -11,6 +11,7 @@ function Tracking_Car(file_name)
     tracks = initializeTracks(); % Create an empty array of tracks.
 
     nextId = 1; % ID of the next track
+    showId = 1;
     while ~isDone(obj.reader)
         frame = obj.reader.step();
 %      figure,imshow( frame ,[]);title('Raw');
@@ -20,11 +21,11 @@ function Tracking_Car(file_name)
         [assignments, unassignedTracks, unassignedDetections] = ...
         detectionToTrackAssignment(centroids);
 
-        tracks=updateAssignedTracks(assignments,centroids, bboxes);
+        updateAssignedTracks(assignments,centroids, bboxes);
         updateUnassignedTracks(unassignedTracks);
         deleteLostTracks();
-        createNewTracks(centroids, unassignedDetections, bboxes,nextId);
-        displayTrackingResults(frame,mask);
+        [nextId]=createNewTracks(centroids, unassignedDetections, bboxes,nextId);
+        showId= displayTrackingResults(frame,mask,showId);
     %     obj.maskPlayer.step(mask);
     end
 %             close all;

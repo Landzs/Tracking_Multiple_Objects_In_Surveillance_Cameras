@@ -1,4 +1,4 @@
-function createNewTracks(centroids, unassignedDetections, bboxes,nextId)
+function nextId = createNewTracks(centroids, unassignedDetections, bboxes,nextId)
         centroids = centroids(unassignedDetections, :);
         bboxes = bboxes(unassignedDetections, :);
     global obj;
@@ -12,9 +12,13 @@ function createNewTracks(centroids, unassignedDetections, bboxes,nextId)
 %             kalmanFilter = configureKalmanFilter('ConstantVelocity', ...
 %                 centroid, [200, 50], [100, 25], 100);
            particleFilter= robotics.ParticleFilter;
-           initialize(particleFilter,1000,centroids,eye(2));
-           particleFilter.StateEstimationMethod = 'mean';
+           initialize(particleFilter,1000,centroid,eye(2));
+           particleFilter.StateEstimationMethod = 'maxweight';
             particleFilter.ResamplingMethod = 'systematic';
+            policy = robotics.ResamplingPolicy;
+            policy.TriggerMethod='interval';
+            policy.MinEffectiveParticleRatio=0.01;
+           particleFilter. ResamplingPolicy=policy;
             % Create a new track.
 %             newTrack = struct(...
 %                 'id', nextId, ...
@@ -29,7 +33,8 @@ function createNewTracks(centroids, unassignedDetections, bboxes,nextId)
                 'particleFilter', particleFilter, ...
                 'age', 1, ...
                 'totalVisibleCount', 1, ...
-                'consecutiveInvisibleCount', 0);
+                'consecutiveInvisibleCount', 0, ...
+                'showId', 0);
             % Add it to the array of tracks.
             tracks(end + 1) = newTrack;
 

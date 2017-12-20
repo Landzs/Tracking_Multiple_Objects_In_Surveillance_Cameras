@@ -3,7 +3,6 @@ function predictNewLocationsOfTracks()
     global tracks;
         for i = 1:length(tracks)
             bbox = tracks(i).bbox;
-
             % Predict the current location of the track.
 %             predictedCentroid = predict(tracks(i).kalmanFilter);
             predictedCentroid = predict(tracks(i).particleFilter);
