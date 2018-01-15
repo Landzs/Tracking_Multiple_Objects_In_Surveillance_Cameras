@@ -8,7 +8,8 @@ function [assignments, unassignedTracks, unassignedDetections] = ...
         cost = zeros(nTracks, nDetections);
         for i = 1:nTracks
 %             cost(i, :) = distance( getStateEstimate(tracks(i).particleFilter), centroids);
-            cost(i, :) = distance(predict(tracks(i).particleFilter), centroids);
+%             tracks(i).particles
+            cost(i, :) = distance(mean(tracks(i).particles), centroids);
         end
 
         % Solve the assignment problem.

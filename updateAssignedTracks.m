@@ -10,8 +10,7 @@ function updateAssignedTracks(assignments,centroids, bboxes)
 
             % Correct the estimate of the object's location
             % using the new detection.
-            correct(tracks(trackIdx).particleFilter, centroid);
-            
+           tracks(trackIdx).particles= pfCorrect(tracks(trackIdx).particles, centroid);
             % Replace predicted bounding box with detected
             % bounding box.
             tracks(trackIdx).bbox = bbox;

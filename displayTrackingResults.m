@@ -42,10 +42,10 @@ function showId = displayTrackingResults( frame,mask,showId)
                 labels = strcat(labels, isPredicted);
 
                 % Draw the objects on the frame.
-%                 for i=1:length(labels)
+                for i=1:length(labels)
                     frame = insertObjectAnnotation(frame, 'circle', ...
-                        [tracks(1).particleFilter.Particles(:,1),tracks(1).particleFilter.Particles(:,2) ones(1000,1)*1],0);
-%                 end
+                        [tracks(i).particles(:,1),tracks(i).particles(:,2) ones(size(tracks(i).particles,1),1)*1],0);
+                end
                 frame = insertObjectAnnotation(frame, 'rectangle', ...
                     bboxes, labels);
 %                 plot(tracks(1).particleFilter.Particles(1),tracks(1).particleFilter.Particles(2),'ro');hold on;
