@@ -1,3 +1,10 @@
+% function tracks = initializeTracks()
+% Initialize tracks sturct
+% Inputs:
+% 
+% Outputs:
+%           tracks:           sturct
+
 function tracks = initializeTracks()
     global obj;
     global tracks;
@@ -10,4 +17,4 @@ function tracks = initializeTracks()
             'totalVisibleCount', {}, ...
             'consecutiveInvisibleCount', {}, ...
             'showId', {});
-    end
+end

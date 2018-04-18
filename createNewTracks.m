@@ -1,34 +1,26 @@
+% function nextId = createNewTracks(centroids, unassignedDetections, bboxes,nextId)
+% Create new tracks from unassigned detections
+% Inputs:   
+%             centroids                    array
+%             unassignedDetections:        array
+%             bboxes:                      array
+%             nextId:                      integer
+% Outputs:
+%             nextId:                      array
 function nextId = createNewTracks(centroids, unassignedDetections, bboxes,nextId)
-        centroids = centroids(unassignedDetections, :);
-        bboxes = bboxes(unassignedDetections, :);
-    global obj;
+	global obj;
     global tracks;
-        for i = 1:size(centroids, 1)
+    centroids = centroids(unassignedDetections, :);
+	bboxes = bboxes(unassignedDetections, :);
 
-            centroid = centroids(i,:);
-            bbox = bboxes(i, :);
+    for i = 1:size(centroids, 1)
+        centroid = centroids(i,:);
+        bbox = bboxes(i, :);
 
-            % Create a Kalman filter object.
-%             kalmanFilter = configureKalmanFilter('ConstantVelocity', ...
-%                 centroid, [200, 50], [100, 25], 100);
-%            particleFilter= robotics.ParticleFilter;
-%            initialize(particleFilter,1000,centroid,eye(2));
-%            particleFilter.StateEstimationMethod = 'mean';
-%             particleFilter.ResamplingMethod = 'systematic';
-%             policy = robotics.ResamplingPolicy;
-%             policy.TriggerMethod='interval';
-%             policy.MinEffectiveParticleRatio=0.01;
-%            particleFilter. ResamplingPolicy=policy;
-            % Create a new track.
-%             newTrack = struct(...
-%                 'id', nextId, ...
-%                 'bbox', bbox, ...
-%                 'kalmanFilter', kalmanFilter, ...
-%                 'age', 1, ...
-%                 'totalVisibleCount', 1, ...
-%                 'consecutiveInvisibleCount', 0);
-            particles=ones(100,2)*0.5*[centroid;centroid];
-            newTrack = struct(...
+        % Create a Particle filter object.
+        particles=ones(100,2)*0.5*[centroid;centroid];
+        % Create a new track.
+        newTrack = struct(...
                 'id', nextId, ...
                 'bbox', bbox, ...
                 'particles', particles, ...
@@ -36,10 +28,10 @@ function nextId = createNewTracks(centroids, unassignedDetections, bboxes,nextId
                 'totalVisibleCount', 1, ...
                 'consecutiveInvisibleCount', 0, ...
                 'showId', 0);
-            % Add it to the array of tracks.
-            tracks(end + 1) = newTrack;
+        % Add it to the array of tracks.
+        tracks(end + 1) = newTrack;
 
-            % Increment the next id.
-            nextId = nextId + 1;
+        % Increment the next id.
+        nextId = nextId + 1;
         end
     end
