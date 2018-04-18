@@ -33,5 +33,5 @@ function nextId = createNewTracks(centroids, unassignedDetections, bboxes,nextId
 
         % Increment the next id.
         nextId = nextId + 1;
-        end
-    end
+	end
+end
